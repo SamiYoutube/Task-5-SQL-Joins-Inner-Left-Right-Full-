@@ -1,0 +1,87 @@
+✅ Sample Tables
+🔹 Table: Customers
+customer_id	customer_name
+1		John
+2		Priya
+3		Ahmed
+4		Rita
+🔹 Table: Orders
+order_id	customer_id	amount
+101		1		500
+102		2		300
+103		1		200
+104		5		400
+
+⚠ Note: customer_id = 5 in Orders does not exist in Customers.
+
+✅ 1. INNER JOIN – Only Matching Records
+SELECT c.customer_name, o.order_id, o.amount
+FROM Customers c
+INNER JOIN Orders o
+ON c.customer_id = o.customer_id;
+
+✅ Output:
+customer_name	order_id	amount
+John	101	500
+Priya	102	300
+John	103	200
+
+✔ Only customers who actually placed valid orders.
+
+✅ 2. LEFT JOIN – All Customers + Their Orders (if any)
+SELECT c.customer_name, o.order_id, o.amount
+FROM Customers c
+LEFT JOIN Orders o
+ON c.customer_id = o.customer_id;
+
+✅ Output:
+customer_name	order_id	amount
+John	101	500
+Priya	102	300
+John	103	200
+Ahmed	NULL	NULL
+Rita	NULL	NULL
+
+✔ Shows customers even if they haven’t made any orders.
+
+✅ 3. RIGHT JOIN – All Orders + Matching Customers
+SELECT c.customer_name, o.order_id, o.amount
+FROM Customers c
+RIGHT JOIN Orders o
+ON c.customer_id = o.customer_id;
+
+✅ Output:
+customer_name	order_id	amount
+John	101	500
+Priya	102	300
+John	103	200
+NULL	104	400
+
+✔ Includes orders even if the customer doesn't exist in the customers table.
+
+✅ 4. FULL OUTER JOIN – All Data from Both Tables
+
+(Use UNION for MySQL)
+
+SELECT c.customer_name, o.order_id, o.amount
+FROM Customers c
+LEFT JOIN Orders o
+ON c.customer_id = o.customer_id
+
+UNION
+
+SELECT c.customer_name, o.order_id, o.amount
+FROM Customers c
+RIGHT JOIN Orders o
+ON c.customer_id = o.customer_id;
+
+✅ Output:
+customer_name	order_id	amount
+John	101	500
+Priya	102	300
+John	103	200
+Ahmed	NULL	NULL
+Rita	NULL	NULL
+NULL	104	400
+
+✔ All customers + all orders, matched or not.

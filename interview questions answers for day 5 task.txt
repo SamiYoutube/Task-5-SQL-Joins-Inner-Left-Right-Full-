@@ -1,0 +1,114 @@
+✅ 1. Difference between INNER and LEFT JOIN?
+
+INNER JOIN:
+Returns only the matching rows from both tables.
+
+LEFT JOIN:
+Returns all rows from the left table and matching rows from the right table. Unmatched rows show NULL on the right side.
+
+✅ 2. What is a FULL OUTER JOIN?
+
+A FULL OUTER JOIN returns:
+
+All matched rows from both tables
+
+All unmatched rows from both sides, with NULLs where no match exists
+
+It combines the behavior of LEFT and RIGHT JOIN.
+
+(Some databases like MySQL use UNION to simulate it.)
+
+✅ 3. Can joins be nested?
+
+✅ Yes. You can join multiple tables in a chain or nest joins like this:
+
+SELECT *
+FROM A
+JOIN B ON A.id = B.id
+JOIN C ON B.id = C.id;
+
+
+Or with parentheses:
+
+SELECT *
+FROM (A JOIN B ON A.id = B.id)
+JOIN C ON B.id = C.id;
+
+✅ 4. How to join more than 2 tables?
+
+By chaining joins:
+
+SELECT *
+FROM Orders o
+JOIN Customers c ON o.customer_id = c.customer_id
+JOIN Products p ON o.product_id = p.product_id;
+
+
+No limit as long as the relationships are valid.
+
+✅ 5. What is a CROSS JOIN?
+
+A CROSS JOIN returns the Cartesian product of two tables—every row from one combined with every row of the other.
+
+SELECT *
+FROM A
+CROSS JOIN B;
+
+✅ 6. What is a NATURAL JOIN?
+
+A NATURAL JOIN automatically joins tables using columns with the same name and data type.
+You don’t specify the join condition.
+
+Example:
+
+SELECT *
+FROM employees
+NATURAL JOIN departments;
+
+
+⚠ Less commonly used because it may join unintended columns.
+
+✅ 7. Can you join tables without a foreign key?
+
+✅ Yes. Joins only need matching column values, not actual foreign key constraints.
+
+Example:
+
+SELECT *
+FROM sales s
+JOIN regions r
+ON s.region_code = r.code;
+
+✅ 8. What is a self-join?
+
+A self-join is when a table is joined with itself.
+
+Example:
+
+SELECT e1.name AS employee, e2.name AS manager
+FROM employees e1
+JOIN employees e2
+ON e1.manager_id = e2.emp_id;
+
+✅ 9. What causes a Cartesian product?
+
+A Cartesian product happens when:
+
+You use CROSS JOIN
+
+OR you write a JOIN without a valid ON condition
+
+Example mistake:
+
+SELECT *
+FROM employees, departments;
+
+✅ 10. How to optimize joins?
+
+✔ Use indexes on join columns
+✔ Avoid SELECT * — fetch only needed columns
+✔ Use proper join conditions
+✔ Filter early using WHERE
+✔ Normalize tables correctly
+✔ Avoid unnecessary nested joins
+✔ Use EXPLAIN to analyze performance
